@@ -1,11 +1,9 @@
 class ViewController {
 
-   
-
     constructor() {
         setUpLocalStorage();
-        // window.addEventListener("load", setUpLocalStorage);
         this.userManager = new UserManager(setUpUserManagerData());
+        // window.addEventListener("load", setUpLocalStorage);
     }
 }
 

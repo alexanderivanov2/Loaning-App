@@ -18,10 +18,18 @@ function setUpLocalStorage() {
     keys.forEach(key => {
         let value = localStorage.getItem(key);
         value = value || JSON.parse(value);
-        console.log(value);
+
         if (key !== "logged" && !value) {
-            localStorage.setItem(key, JSON.stringify([]));
-            console.log("hi");
+            let value = []
+            switch(key) {
+                case "admins":
+                    value.push(new Admin("admin", "admin123"))
+                    break;
+                case "users":
+                    value.push(new User("test", 123456), new User("test2", 123456));
+                }
+
+                localStorage.setItem(key, JSON.stringify(value));
         }
 
         if (key === "logged" && !value) {
