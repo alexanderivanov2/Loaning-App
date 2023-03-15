@@ -26,6 +26,9 @@ navbar div {
     gap: 25px;
 }
 
+navbar .guest, navbar .logged {
+    display: none;
+}
 navbar div a {
     text-decoration: none;
     font-size: 18px;

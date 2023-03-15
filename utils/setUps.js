@@ -26,7 +26,7 @@ function setUpLocalStorage() {
                     value.push(new Admin("admin", "admin123"))
                     break;
                 case "users":
-                    value.push(new User("test", 123456), new User("test2", 123456));
+                    value.push(new User("test", "123456"), new User("test2", "123456"));
                 }
 
                 localStorage.setItem(key, JSON.stringify(value));

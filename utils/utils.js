@@ -19,3 +19,9 @@ function getUserType() {
     
     return userType;
 }
+
+function getLoginFormValuesInArray(data={}) {
+    const {username, password} = data;
+
+    return [username, password]
+}

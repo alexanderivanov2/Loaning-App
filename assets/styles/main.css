@@ -13,3 +13,7 @@ form {
     
     margin-top: 25px;
 }
+
+.login, .register, .loan, .overview, .statistics {
+    display: none;
+}

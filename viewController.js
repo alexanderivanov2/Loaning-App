@@ -3,12 +3,22 @@ class ViewController {
     constructor() {
         setUpLocalStorage();
         this.userManager = new UserManager(setUpUserManagerData());
+        this.loginController = new LoginController(this.userManager);
         window.addEventListener("load", this.handleHashChange);
+        window.addEventListener("load", this.handleNavigation);
         window.addEventListener("hashchange", this.handleHashChange);
+        window.addEventListener("hashchange", this.handleNavigation);
+        this.logoutLink = document.querySelector("a.logout");
+        this.logoutLink.addEventListener("click", this.handleLogout);
+        this.guestNav = document.querySelector("navbar div.guest");
+        this.loggedNav = document.querySelector("navbar div.logged");
+        this.userNav = this.loggedNav.querySelector(".user");
+        this.adminNav = this.loggedNav.querySelector(".admin");
+
     }
 
     handleHashChange = () => {
-        const pages = ["login", "register", "loan", "statistics"]
+        const pages = ["login", "register", "loan", "overview", "statistics"];
         
         const defaultHash = {
             guest: "login",
@@ -21,6 +31,7 @@ class ViewController {
             user: ["loan", "overview", "logout"],
             admin: ["statistics", "logout"],
         }
+
         const userType = getUserType();
         
         let hash = location.hash.slice(1, ) || defaultHash[userType];
@@ -38,6 +49,58 @@ class ViewController {
         }
 
         console.log(hash);
+
+        pages.forEach(page => {
+            const pageContent = document.querySelector(`.${page}`);
+            if (page === hash) {
+                pageContent.style.display = "block";
+            } else {
+                pageContent.style.display = "none";
+            }
+        });
+
+        switch(hash) {
+            case "login": 
+                this.loginController.setUpLogin();
+                break;
+            case "register":
+                break;
+            case "loan":
+                break;
+            case "overview":
+                break;
+            case "statistics":
+                break;
+        }
+    }
+
+    handleNavigation = () => {
+
+        if (this.userManager.logged) {
+            this.loggedNav.style.display = "flex";
+            this.guestNav.style.display = "none";
+            
+            const userType = getUserType();
+
+            if (userType === "admin") {
+                this.adminNav.style.display = "flex";
+                this.userNav.style.display = "none"
+            } else {
+                this.userNav.style.display = "flex";
+                this.adminNav.style.display = "none";
+            }
+
+        } else {
+            this.guestNav.style.display = "flex";            
+            this.loggedNav.style.display = "none";
+        }
+    }
+
+    handleLogout = (e) => {
+        e.preventDefault();
+        this.userManager.logout();
+
+        location.hash = "login";
     }
 }
 
