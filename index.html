@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/styles/styles.css">
+    <link rel="icon" type="image/x-icon" href="./assets/images/logo.jpg">
+    <title>Loaning App</title>
+</head>
+<body>
+    <header>
+        <div class="logo-wrapper">
+            <img src="./assets/images/logo.jpg" alt="app logo" class="header-logo">
+        </div>
+        <navbar>
+            <div class="guest">
+                <a href="#login">Login</a>
+                <a href="#register">Register</a>
+            </div>
+            <div class="logged">
+                <div class="user">
+                    <a href="#home">Loan</a>
+                </div>
+                <div class="admin">
+                    <a href="#statistics">Statistics</a>
+                </div>
+                <a href="#logout">Logout</a>
+
+            </div>
+        </navbar>
+    </header>
+    <main>
+        <section class="content">
+            <div class="login">
+                <form class="login">
+                    <input type="text" name="username" placeholder="Enter Your Username">
+                    <input type="password" name="password" placeholder="Enter Your Password...">
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+            <div class="register">
+                <form class="register">
+                    <input type="text" name="username" placeholder="Enter Your Username">
+                    <input type="password" name="password" placeholder="Enter Your Password...">
+                    <input type="password" name="confirmPassword" placeholder="Confirm Your Password...">
+                    <input type="submit" value="Register">
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

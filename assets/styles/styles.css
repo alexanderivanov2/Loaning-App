@@ -1,0 +1,16 @@
+@import url("./reset.css");
+@import url("./header.css");
+@import url("./main.css");
+@font-face {
+    font-family: Roboto;
+    src: url("../fonts/Roboto-Medium.ttf");
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    
+}
+
+body {
+    font-family: Roboto, sans-serif, serif;
+}
