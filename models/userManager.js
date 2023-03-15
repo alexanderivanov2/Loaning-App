@@ -9,14 +9,21 @@ class UserManager {
         if (this.logged) {
             return "You are already logged!"
         }
-
-        const isUserExist = this.users.find(user => user.username === username && user.password === password);
-    
-        if (!isUserExist) {
-            return "Wrong Credentials!"
+        
+        const isAdminExist = this.admins.find(admin => admin.username === username && admin.password === password);
+        
+        if (!isAdminExist) {
+            const isUserExist = this.users.find(user => user.username === username && user.password === password);
+            
+            if (!isUserExist) {
+                return "Wrong Credentials!"
+            }
+            
+            this.logged = isUserExist;
+        } else {
+            this.logged = isAdminExist;
         }
-
-        this.logged = isUserExist;
+        
         localStorage.setItem("logged", JSON.stringify(this.logged));
 
         return "You are successfully logged in!"
@@ -27,8 +34,9 @@ class UserManager {
             return "You should logout first!"
         }
 
-        const isUsernameExist = this.users.find(user => user.username === username);
-    
+        const isUsernameExist = this.users.find(user => user.username === username) ||
+                                this.admins.find(admin => admin.username === username);
+        
         if (isUsernameExist) {
             return "Username already exist!";
         }
