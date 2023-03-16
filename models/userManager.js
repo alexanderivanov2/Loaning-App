@@ -2,7 +2,7 @@ class UserManager {
     constructor({users, admins, logged}) {
         this.users = users;
         this.admins = admins;
-        this.logged = logged;
+        this.logged = logged && this.setReferenceUser(logged);
     }
 
     login = ({username, password}) => {
@@ -24,7 +24,7 @@ class UserManager {
             this.logged = isAdminExist;
         }
         
-        localStorage.setItem("logged", JSON.stringify(this.logged));
+        saveInLocalStorage({"logged": this.logged});
 
         return "You are successfully logged in!"
     }
@@ -42,7 +42,7 @@ class UserManager {
         }
 
         this.users.push(new User(username, password));
-        localStorage.setItem("users", JSON.stringify(this.users));
+        saveInLocalStorage({"users": this.users});
 
         return "You are successfully register!"
     }
@@ -53,8 +53,41 @@ class UserManager {
         }
 
         this.logged = null;
-        localStorage.setItem("logged", null);
+        saveInLocalStorage({"logged": null});
 
         return "You are successfully logout!"
+    }
+
+    setReferenceUser = ({username, password}) => {
+        const user = this.users.find(user => user.username === username && user.password === password);
+        
+        if (user) {
+            return user
+        }
+
+        const admin =  this.admins.find(user => user.username === username && user.password === password);
+
+        if (admin) {
+            return admin
+        }
+
+        return null
+    }
+
+    setMonthlyIncomeForUser(monthlyIncome) {
+        // console.log(this.logged);
+        this.logged.monthlyIncome = monthlyIncome;
+        saveInLocalStorage({
+            "users": this.users,
+            "logged": this.logged, 
+        });
+    }
+
+    setLoanId(id) {
+        this.logged.loanIDs.push(id);
+        saveInLocalStorage({
+            "users": this.users,
+            "logged": this.logged, 
+        });
     }
 }

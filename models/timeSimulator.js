@@ -16,6 +16,15 @@ class TimeSimulator {
             user.ownedMoney += user.monthlyIncome;
         });
 
-        localStorage.setItem("users", JSON.stringify(this.userManager.users));
+        const localStorageData = {
+            "users": this.userManager.users,
+        }
+
+        if (this.userManager.logged) {
+            localStorageData.logged = this.userManager.setReferenceUser(this.userManager.logged);
+        }
+        
+        // console.log(localStorageData);
+        saveInLocalStorage(localStorageData);
     }
 }

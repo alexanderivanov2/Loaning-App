@@ -2,23 +2,28 @@ class ViewController {
 
     constructor() {
         setUpLocalStorage();
+        
         this.userManager = new UserManager(setUpUserManagerData());
+        this.loanManger = new LoanManager(this.userManager, setUpLoanManagerData());
         this.timeSimulator = new TimeSimulator(this.userManager);
+        
         this.loginController = new LoginController(this.userManager);
         this.registerController = new RegisterController(this.userManager);
-        this.loanController = new LoanController(this.userManager);
+        this.loanController = new LoanController(this.userManager, this.loanManger);
+        this.overviewController = new OverviewController(this.userManager, this.loanManger);
+
         window.addEventListener("load", this.timeSimulator.startTimeSimulator);
         window.addEventListener("load", this.handleHashChange);
         window.addEventListener("load", this.handleNavigation);
         window.addEventListener("hashchange", this.handleHashChange);
         window.addEventListener("hashchange", this.handleNavigation);
+        
         this.logoutLink = document.querySelector("a.logout");
         this.logoutLink.addEventListener("click", this.handleLogout);
         this.guestNav = document.querySelector("navbar div.guest");
         this.loggedNav = document.querySelector("navbar div.logged");
         this.userNav = this.loggedNav.querySelector(".user");
         this.adminNav = this.loggedNav.querySelector(".admin");
-
     }
 
     handleHashChange = () => {
@@ -72,6 +77,7 @@ class ViewController {
                 this.loanController.setUpLoanPage();
                 break;
             case "overview":
+                this.overviewController.setUpOverviewPage();
                 break;
             case "statistics":
                 break;
