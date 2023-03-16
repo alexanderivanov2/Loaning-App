@@ -12,7 +12,10 @@
     <script src="./models/user.js" defer></script>
     <script src="./models/admin.js" defer></script>
     <script src="./models/userManager.js" defer></script>
+    <script src="./models/timeSimulator.js" defer></script>
     <script src="./controllers/loginController.js" defer></script>
+    <script src="./controllers/registerController.js" defer></script>
+    <script src="./controllers/loanController.js" defer></script>
     <title>Loaning App</title>
 </head>
 <body>
@@ -55,7 +58,28 @@
                     <input type="submit" value="Register">
                 </form>
             </div>
-            <div class="loan"><h2>LOAN</h2></div>
+            <div class="loan"><h2>LOAN</h2>
+                <form class="loan-form">
+                    <div class="loan-form-borrower-name">
+                        <label for="borrowerName">Borrower Name: </label>
+                        <input type="text" name="borrowerName" disabled>
+                    </div>
+                    <div class="loan-form-borrower-name">
+                        <label for="borrowerIncome">Borrower Income: </label>
+                        <input type="number" name="borrowerIncome" disabled>
+                    </div>
+                    <div class="loan-form-requested-amount">
+                        <label for="reuestedAmount">Requested Amount: </label>
+                        <input type="number" name="requestedAmount" min="1000" value="1000">
+                    </div>
+                    <div class="loan-form-requested-term">
+                        <label for="requstedTerm">Requested Term: </label>
+                        <input type="number" name="requstedTerm" min="6" value="6">
+                    </div>
+
+                    <input type="submit" value="Request Loan">
+                </form>
+            </div>
             <div class="overview"><h2>OVERVIEW</h2></div>
             <div class="statistics"><h2>STATISTICS</h2></div>
         </section>

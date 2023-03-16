@@ -3,7 +3,11 @@ class ViewController {
     constructor() {
         setUpLocalStorage();
         this.userManager = new UserManager(setUpUserManagerData());
+        this.timeSimulator = new TimeSimulator(this.userManager);
         this.loginController = new LoginController(this.userManager);
+        this.registerController = new RegisterController(this.userManager);
+        this.loanController = new LoanController(this.userManager);
+        window.addEventListener("load", this.timeSimulator.startTimeSimulator);
         window.addEventListener("load", this.handleHashChange);
         window.addEventListener("load", this.handleNavigation);
         window.addEventListener("hashchange", this.handleHashChange);
@@ -48,8 +52,6 @@ class ViewController {
             return
         }
 
-        console.log(hash);
-
         pages.forEach(page => {
             const pageContent = document.querySelector(`.${page}`);
             if (page === hash) {
@@ -64,8 +66,10 @@ class ViewController {
                 this.loginController.setUpLogin();
                 break;
             case "register":
+                this.registerController.setUpRegister();
                 break;
             case "loan":
+                this.loanController.setUpLoanPage();
                 break;
             case "overview":
                 break;
