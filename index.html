@@ -6,16 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/styles/styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/images/logo.jpg">
+
     <script src="./utils/utils.js" defer></script>
     <script src="./utils/setUps.js" defer></script>
     <script src="./utils/validators.js" defer></script>
+    
     <script src="./models/user.js" defer></script>
     <script src="./models/admin.js" defer></script>
+    <script src="./models/idGenerator.js" defer></script>
+    <script src="./models/lender.js"></script>
+    <script src="./models/loan.js" defer></script>
+    <script src="./models/offer.js" defer></script>
     <script src="./models/userManager.js" defer></script>
+    <script src="./models/loanManager.js" defer></script>
     <script src="./models/timeSimulator.js" defer></script>
+    
     <script src="./controllers/loginController.js" defer></script>
     <script src="./controllers/registerController.js" defer></script>
     <script src="./controllers/loanController.js" defer></script>
+    <script src="./controllers/overviewController.js" defer></script>
     <title>Loaning App</title>
 </head>
 <body>
@@ -66,21 +75,43 @@
                     </div>
                     <div class="loan-form-borrower-name">
                         <label for="borrowerIncome">Borrower Income: </label>
-                        <input type="number" name="borrowerIncome" disabled>
+                        <input type="number" name="borrowerIncome" min="0" placeholder="Enter Your Month Income">
                     </div>
                     <div class="loan-form-requested-amount">
                         <label for="reuestedAmount">Requested Amount: </label>
-                        <input type="number" name="requestedAmount" min="1000" value="1000">
+                        <input type="number" name="requestedAmount" min="1000" placeholder="Enter Requested Amount">
                     </div>
                     <div class="loan-form-requested-term">
-                        <label for="requstedTerm">Requested Term: </label>
-                        <input type="number" name="requstedTerm" min="6" value="6">
+                        <label for="requestedTerm">Requested Term: </label>
+                        <input type="number" name="requestedTerm" min="6" placeholder="Enter Requested Term">
                     </div>
 
                     <input type="submit" value="Request Loan">
                 </form>
             </div>
-            <div class="overview"><h2>OVERVIEW</h2></div>
+            <div class="overview"><h2>OVERVIEW</h2>
+                <table class="loan-requests">
+                    <thead>
+                        <tr><th colspan="5">Loan Requests</th></tr>
+                        <tr class="table-headers">
+                            <th>Loan ID</th>
+                            <th>Requested Amount</th>
+                            <th>Requested Term</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="request-loan-row">
+                            <td>1</td>
+                            <td>10000</td>
+                            <td>12</td>
+                            <td>pending</td>
+                            <td><button>cancel</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="statistics"><h2>STATISTICS</h2></div>
         </section>
     </main>
