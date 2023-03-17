@@ -77,7 +77,7 @@ class LoanManager{
     }
 
     getLoan(id) {
-        return this.loan.find(loan => loan.id === id);
+        return this.loans.find(loan => loan.id === id);
     }
 
     getLoans(ids=this.userManager.logged.loanIDs) {
@@ -88,11 +88,11 @@ class LoanManager{
     acceptOffer(loanApplication, offer) {
         loanApplication.status = "accepted";
         const {id, requestedAmount, requestedTerm, monthlyPayment} = loanApplication;
-        const {interestRate, lenderName} = offer;
+        const {interestRate, lenderName, loanAmount} = offer;
         // MAKE RIGHT CALCULATIONS for totalOwned Money
-        const totalOwnedAmount =  requestedAmount + (requestedAmount * (interestRate/100));
+        const totalOwnedAmount =  loanAmount + (loanAmount * (interestRate/100));
         
-        const loan = new Loan(id, requestedAmount, requestedTerm, monthlyPayment, totalOwnedAmount, interestRate, lenderName);
+        const loan = new Loan(id, requestedAmount, loanAmount, requestedTerm, monthlyPayment, totalOwnedAmount, interestRate, lenderName);
         this.loans.push(loan);
 
         saveInLocalStorage({
@@ -100,6 +100,38 @@ class LoanManager{
             "loanApplications": this.loanApplications,
         })
         // save in local storage
+    }
+
+    repaidLoan(id) {
+        const loan = this.getLoan(id);
+        const isActualUser = this.userManager.logged.loanIDs.includes(id);
+
+        const response = {
+            isRepaid:false,
+        }
+
+        if (isActualUser) {
+            const ownedMoney = this.userManager.logged.ownedMoney;
+
+            if (ownedMoney >= loan.loanAmount) {
+                loan.status = "repaid";
+                response.isRepaid = true;
+                this.userManager.logged.ownedMoney -= loan.loanAmount;
+
+                saveInLocalStorage({
+                    "logged": this.userManager.logged,
+                    "users": this.userManager.users,
+                    "loans": this.loans,
+                });
+            } else {
+                response.alert = "You don't have enough money to repaid the loan!";
+            }
+
+        } else {
+            response.alert = "You don't have enough money to repaid the loan!";
+        }
+
+        return response;
     }
 
     getOffers(interestRate, requestedAmount, requestedTerm, monthlyPayment) {
@@ -111,7 +143,7 @@ class LoanManager{
             if (isOffer) {
                 const loanAmount = requestedAmount > lender.maxLoanAmount ? lender.maxLoanAmount : requestedAmount;
                 console.log(loanAmount, monthlyPayment, requestedTerm);
-                const offer = new Offer(interestRate, loanAmount, monthlyPayment, requestedTerm, lender.name);
+                const offer = new Offer(interestRate, requestedAmount, loanAmount, monthlyPayment, requestedTerm, lender.name);
                 console.log(offer)
                 offers.push(offer);
             }
