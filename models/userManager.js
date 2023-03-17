@@ -10,7 +10,15 @@ class UserManager {
             setTimeout(() => res(this.login(formData)), 3000);
         });
 
-        return loginPromise;
+        return loginPromise
+    }
+    
+    handleRegister(formData) {
+        const registerPromise = new Promise((res, rej) => {
+            setTimeout(() => res(this.register(formData)), 3000);
+        });
+
+        return registerPromise
     }
 
     login = ({username, password}) => {

@@ -57,6 +57,6 @@ form label {
 
 /* LOGIN */
 
-.login-load{
+.login-load, .register-load{
     margin: auto;
 }

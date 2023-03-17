@@ -3,12 +3,14 @@ class LoginController {
         this.userManager = userManager;
         this.loginPage = document.querySelector(".login");
         this.loginForm = this.loginPage.querySelector(".login-form");
+        this.loginMsg = this.loginForm.querySelector(".login-message");
         this.submitBtn = this.loginForm.querySelector("input[type='submit']");
         this.loginLoader = this.loginPage.querySelector(".login-load");
     }
 
     setUpLogin = () => {
         this.loginForm.reset();
+        this.loginMsg.textContent = "";
         this.submitBtn.disabled = true;
 
         this.loginForm.oninput = this.handleLoginFormInput;
@@ -45,16 +47,16 @@ class LoginController {
         this.userManager.handleLogin(formData)
             .then(res => {
                 if (res === "Wrong Credentials!") {
-                    alert(res);
+                    this.loginMsg.textContent = res;
                 } else {
                     const hashValue  = getUserType() === "admin" ? "statistics" : "loan";
                     location.hash = hashValue;
                 }
             })
-            .catch(err => alert("Wrong Credentials"))
+            .catch(err => this.loginMsg.textContent = res)
             .finally(() => {
                 this.loginForm.classList.remove("hide");
-                this.loginLoader.classList.remove("loader")
+                this.loginLoader.classList.remove("loader");
             });
     }
 }

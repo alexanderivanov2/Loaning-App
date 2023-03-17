@@ -37,3 +37,13 @@ function validateSubmitLoanForm(formData) {
 
     return validateResult;
 }
+
+function validateRegister({username, password, confirmPassword}) {
+    const isAllFilled = validateInputAllFilled([username, password, confirmPassword]);
+    
+    const isEqualPass = password === confirmPassword;
+    const isPassLengthCorrect = password.trim().length >= 6;
+    const isConfirmPassLengthCorrect = password.trim().length >= 6;
+
+    return isAllFilled && isEqualPass && isPassLengthCorrect && isConfirmPassLengthCorrect
+}
