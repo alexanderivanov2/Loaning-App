@@ -1,7 +1,8 @@
 class LoanController {
-    constructor(userManager, loanManager) {
+    constructor(userManager, loanManager, overviewController) {
         this.userManager = userManager;
         this.loanManager = loanManager;
+        this.overviewController = overviewController;
         this.borrowForm = document.querySelector(".loan-form");
         this.borrowNameInput = this.borrowForm.querySelector("input[name='borrowerName']");
         this.borrowIncomeInput = this.borrowForm.querySelector("input[name='borrowerIncome']");
@@ -31,12 +32,19 @@ class LoanController {
         
         formatLoanFormData(formData);
         // console.log(formData);
-        const {isValidForm, errors }= validateSubmitLoanForm(formData);
         // TODO VALIDATE SALARY
+        const {isValidForm, errors }= validateSubmitLoanForm(formData);
+        
         if (isValidForm) {
-            this.loanManager.handleLoanRequest(formData);
-
             location.hash = "overview";
+
+            this.loanManager.handleLoanRequest(formData)
+            .then(res => {
+                console.log(res);
+                this.overviewController.renderTableLoanRequestBody();
+            })
+
+            
         } else {
             alert("Wrong data!");
         }
