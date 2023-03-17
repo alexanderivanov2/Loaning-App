@@ -52,7 +52,9 @@ class OverviewController {
                 };
             } else if (loanApplication.status === "approved") {
                 btn.textContent = "View Offers";
-                btn.onclick = () => this.renderOffers(loanApplication.offers, loanApplication, trEl);
+                btn.onclick = () => {
+                    this.renderOffers(loanApplication.offers, loanApplication, trEl);
+                }
             } else if (loanApplication.status === "rejected") {
                 tdEl.replaceChildren("No");
             }
@@ -63,7 +65,16 @@ class OverviewController {
             return trEl;
         });
         
-        this.LoanApplicationstableBody.replaceChildren(...newRows);
+        if (newRows.length) {
+            this.LoanApplicationstableBody.replaceChildren(...newRows);
+        } else {
+            
+            const trEl = createElement("tr", {className: "request-loan-row"});
+            const tdEl = createElement("td", {textContent: "You don't have any applications"})
+            tdEl.setAttribute("colspan", 5);
+            trEl.append(tdEl)
+            this.LoanApplicationstableBody.replaceChildren(trEl);
+        }
     }
 
     renderTableLoans() {
@@ -77,13 +88,25 @@ class OverviewController {
             trEl.append(createElement("td", {textContent: loan.requestedTerm}));
             trEl.append(createElement("td", {textContent: loan.status}));
             
+        
             const tdEl = createElement("td");
-            const btn = createElement("button", {textContent: "Repay In Full"});
-
-            btn.onclick = () => {
-                console.log("hi");
+            
+            if (loan.status === "progress") {
+                const btn = createElement("button", {textContent: "Repay In Full"});
+    
+                btn.onclick = () => {
+                    const response = this.loanManager.repaidLoan(loan.id);
+    
+                    if (response.isRepaid) {
+                        this.renderTableLoans();
+                    } else {
+                        alert(response.alert);
+                    }
+                }
+                tdEl.append(btn);
+            } else {
+                tdEl.textContent = "No Action";
             }
-            tdEl.append(btn);
             trEl.append(tdEl);
             
             trEl.append(createElement("td", {textContent: loan.totalOwnedAmount}));
@@ -91,7 +114,16 @@ class OverviewController {
             return trEl;
         });
 
-        this.loanTableBody.replaceChildren(...loanRows);
+        if (loanRows.length) {
+            this.loanTableBody.replaceChildren(...loanRows);
+        } else {
+            const trEl = createElement("tr", {className: "request-loan-row"});
+            const tdEl = createElement("td", {textContent: "You don't have any applications"})
+            tdEl.setAttribute("colspan", 6);
+            trEl.append(tdEl);
+
+            this.loanTableBody.replaceChildren(trEl);
+        }
     }
 
     renderOffers(offers, loanApplication, trEl) {
@@ -115,6 +147,7 @@ class OverviewController {
                 this.loanManager.acceptOffer(loanApplication, offer)
                 trEl.remove();
                 this.offersDiv.replaceChildren();
+                this.renderTableLoans();
             }; 
             divEl.append(buttton);
 
