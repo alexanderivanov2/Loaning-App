@@ -23,7 +23,7 @@ function saveInLocalStorage(data={}) {
 }
 
 function getUserType() {
-    let isLoggedIn =  getLocalStorageValue("logged");
+    let isLoggedIn = getLocalStorageValue("logged");
 
     if (!isLoggedIn) {
         return "guest";

@@ -26,6 +26,7 @@
     <script src="./controllers/registerController.js" defer></script>
     <script src="./controllers/loanController.js" defer></script>
     <script src="./controllers/overviewController.js" defer></script>
+    <script src="./controllers/statisticsController.js" defer></script>
     <title>Loaning App</title>
 </head>
 <body>
@@ -60,6 +61,7 @@
                     <input type="password" name="password" placeholder="Enter Your Password...">
                     <input type="submit" value="Login">
                 </form>
+                <div class="login-load"></div>
             </div>
             <div class="register">
                 <h2>REGISTER</h2>
@@ -96,7 +98,7 @@
             <div class="overview"><h2>OVERVIEW</h2>
                 <table class="loan-requests">
                     <thead>
-                        <tr><th colspan="5">Loan Requests</th></tr>
+                        <tr><th colspan="5">Loan Applications</th></tr>
                         <tr class="table-headers">
                             <th>Loan ID</th>
                             <th>Requested Amount</th>
@@ -127,7 +129,7 @@
                 </div>
                 <table class="loan-table">
                     <thead>
-                        <tr><th colspan="6">Loan Requests</th></tr>
+                        <tr><th colspan="6">Loans</th></tr>
                         <tr class="table-headers">
                             <th>Loan ID</th>
                             <th>Loan Amount</th>
@@ -140,7 +142,28 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <div class="statistics"><h2>STATISTICS</h2></div>
+            <div class="statistics">
+                <h2>STATISTICS</h2>
+                <table class="loan-statistics-table">
+                    <thead>
+                        <tr><th colspan="6">Loan Statistics</th></tr>
+                        <tr class="table-headers">
+                            <th>Loan ID</th>
+                            <th>Loan Amount</th>
+                            <th>Loan Term</th>
+                            <th>Loan Status</th>
+                            <th>Total Owned Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="overall-statistics">
+                    <h2>Overall Statistics</h2>
+                    <div class="overall-stats">
+
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
     <script src="./viewController.js" defer></script>

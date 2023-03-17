@@ -11,6 +11,7 @@ class ViewController {
         this.registerController = new RegisterController(this.userManager);
         this.overviewController = new OverviewController(this.userManager, this.loanManger);
         this.loanController = new LoanController(this.userManager, this.loanManger, this.overviewController);
+        this.statisticsController = new StatisticsController(this.loanManger);
 
         window.addEventListener("load", this.timeSimulator.startTimeSimulator);
         window.addEventListener("load", this.handleHashChange);
@@ -80,6 +81,7 @@ class ViewController {
                 this.overviewController.setUpOverviewPage();
                 break;
             case "statistics":
+                this.statisticsController.setUpStatisticsPage();
                 break;
         }
     }
