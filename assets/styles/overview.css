@@ -2,18 +2,33 @@ h2 {
     text-align: center;
     margin: 10px;
 }
-.loan-requests {
+.loan-requests, .loan-table {
     width: 80%;
     margin: auto;
 }
 
-.loan-requests th {
+.loan-requests th, .loan-table th {
     border: 1px solid goldenrod;
     padding: 5px;
 }
 
-.loan-requests tbody td {
+tbody td {
     border: 1px solid black;
     text-align: center;
     padding: 5px;
+}
+
+.offers-wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.offer-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+    border: 3px solid goldenrod;
 }

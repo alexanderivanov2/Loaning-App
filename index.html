@@ -15,6 +15,7 @@
     <script src="./models/admin.js" defer></script>
     <script src="./models/idGenerator.js" defer></script>
     <script src="./models/lender.js"></script>
+    <script src="./models/loanApplication.js" defer></script>
     <script src="./models/loan.js" defer></script>
     <script src="./models/offer.js" defer></script>
     <script src="./models/userManager.js" defer></script>
@@ -53,6 +54,7 @@
     <main>
         <section class="content">
             <div class="login">
+                <h2>LOGIN</h2>
                 <form class="login-form">
                     <input type="text" name="username" placeholder="Enter Your Username">
                     <input type="password" name="password" placeholder="Enter Your Password...">
@@ -60,6 +62,7 @@
                 </form>
             </div>
             <div class="register">
+                <h2>REGISTER</h2>
                 <form class="register-form">
                     <input type="text" name="username" placeholder="Enter Your Username">
                     <input type="password" name="password" placeholder="Enter Your Password...">
@@ -67,7 +70,8 @@
                     <input type="submit" value="Register">
                 </form>
             </div>
-            <div class="loan"><h2>LOAN</h2>
+            <div class="loan">
+                <h2>LOAN</h2>
                 <form class="loan-form">
                     <div class="loan-form-borrower-name">
                         <label for="borrowerName">Borrower Name: </label>
@@ -110,6 +114,30 @@
                             <td><button>cancel</button></td>
                         </tr>
                     </tbody>
+                </table>
+                <div class="offers-wrapper">
+                    <div class="offer-card">
+                        <h2>Lender Name</h2>
+                        <p>Interest Rate: 15%</p>
+                        <p>Loan Amount: 1000</p>
+                        <p>Monthly Payment: 3000</p>
+                        <p>Loan Term: 5 months</p>
+                        <button>Accept Offer</button>
+                    </div>
+                </div>
+                <table class="loan-table">
+                    <thead>
+                        <tr><th colspan="6">Loan Requests</th></tr>
+                        <tr class="table-headers">
+                            <th>Loan ID</th>
+                            <th>Loan Amount</th>
+                            <th>Loan Term</th>
+                            <th>Loan Status</th>
+                            <th>Action</th>
+                            <th>Total Owned Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
                 </table>
             </div>
             <div class="statistics"><h2>STATISTICS</h2></div>
