@@ -9,8 +9,8 @@ class ViewController {
         
         this.loginController = new LoginController(this.userManager);
         this.registerController = new RegisterController(this.userManager);
-        this.loanController = new LoanController(this.userManager, this.loanManger);
         this.overviewController = new OverviewController(this.userManager, this.loanManger);
+        this.loanController = new LoanController(this.userManager, this.loanManger, this.overviewController);
 
         window.addEventListener("load", this.timeSimulator.startTimeSimulator);
         window.addEventListener("load", this.handleHashChange);

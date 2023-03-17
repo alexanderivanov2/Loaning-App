@@ -13,7 +13,7 @@ function setUpUserManagerData() {
 }
 
 function setUpLoanManagerData() {
-    const keys = ["loans", "lenders"];
+    const keys = ["loanApplications", "loans", "lenders"];
     const data = {};
 
     keys.forEach(key => {
@@ -27,7 +27,7 @@ function setUpLoanManagerData() {
 }
 
 function setUpLocalStorage() {
-    const keys = ["users", "admins", "logged", "lenders", "loans"];
+    const keys = ["users", "admins", "logged", "lenders", "loans", "loanApplications"];
 
     keys.forEach(key => {
         let value = localStorage.getItem(key);
