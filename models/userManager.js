@@ -5,20 +5,28 @@ class UserManager {
         this.logged = logged && this.setReferenceUser(logged);
     }
 
+    handleLogin(formData) {
+        const loginPromise = new Promise((res, rej) => {
+            setTimeout(() => res(this.login(formData)), 3000);
+        });
+
+        return loginPromise;
+    }
+
     login = ({username, password}) => {
         if (this.logged) {
             return "You are already logged!"
         }
         
         const isAdminExist = this.admins.find(admin => admin.username === username && admin.password === password);
-        
+
         if (!isAdminExist) {
             const isUserExist = this.users.find(user => user.username === username && user.password === password);
             
             if (!isUserExist) {
                 return "Wrong Credentials!"
             }
-            
+   
             this.logged = isUserExist;
         } else {
             this.logged = isAdminExist;
