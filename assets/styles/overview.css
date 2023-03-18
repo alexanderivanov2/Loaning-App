@@ -4,7 +4,7 @@ h2 {
 }
 table.loan-requests, table.loan-table, table.loan-statistics-table, table .table {
     width: 80%;
-    margin: auto;
+    margin: 25px auto;
 }
 
 .loan-requests th, .loan-table th, .loan-statistics-table th, table.table {
@@ -17,6 +17,7 @@ tbody td {
     border: 1px solid black;
     text-align: center;
     padding: 5px;
+    cursor: pointer;
 }
 
 .offers-wrapper {
@@ -31,7 +32,32 @@ tbody td {
     flex-direction: column;
     gap: 10px;
     padding: 10px 15px;
-    border: 3px solid goldenrod;
+    border: 3px solid black;
+    border-radius: 10px;
+    transition: all ease-in 250ms;
+    cursor: pointer;
+}
+
+.offer-card:hover {
+    scale: 1.2;
+}
+
+.offer-card p {
+    border-bottom: 1px solid lightgray;
+    transition: all ease-in-out 750ms;
+    padding: 2px 5px;
+}
+
+.offer-card p:hover {
+    background-color: lightslategray;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+.offer-card button:hover {
+    border-color: lightgreen;
+    background-color: lightgreen;
+    font-weight: bold;
 }
 
 .overall-stats {

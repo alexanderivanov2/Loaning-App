@@ -1,10 +1,9 @@
 @import url("./overview.css");
+@import url("./login.css");
 
-.content {
-    /* border: 3px solid sandybrown; */
+.content-page {
     width: calc(100vw - 100px);
     margin: 50px auto;
-    height: 90vh;
 }
 
 form {
@@ -12,7 +11,6 @@ form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-
     margin: 25px auto;
 }
 
