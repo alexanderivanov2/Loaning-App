@@ -2,14 +2,15 @@ h2 {
     text-align: center;
     margin: 10px;
 }
-.loan-requests, .loan-table, .loan-statistics-table {
+table.loan-requests, table.loan-table, table.loan-statistics-table, table .table {
     width: 80%;
     margin: auto;
 }
 
-.loan-requests th, .loan-table th, .loan-statistics-table th {
+.loan-requests th, .loan-table th, .loan-statistics-table th, table.table {
     border: 1px solid goldenrod;
     padding: 5px;
+    text-align: center;
 }
 
 tbody td {

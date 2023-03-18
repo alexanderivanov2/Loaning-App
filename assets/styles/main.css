@@ -1,9 +1,9 @@
 @import url("./overview.css");
 
 .content {
-    border: 3px solid sandybrown;
+    /* border: 3px solid sandybrown; */
     width: calc(100vw - 100px);
-    margin: auto;
+    margin: 50px auto;
     height: 90vh;
 }
 
@@ -16,9 +16,10 @@ form {
     margin: 25px auto;
 }
 
-form label {
+form label, label.input-group-text {
     display: inline-block;
-    width: 150px;
+    width: 175px;
+    text-align: left;
 }
 
 .login,
