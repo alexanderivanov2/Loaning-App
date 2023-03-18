@@ -23,7 +23,7 @@ class OverviewController {
                 .getLoanApplications(this.userManager.logged.loanIDs)
                 .then(resData => {
                     const loanApplications = resData
-                        .filter(loanApplication => !["cancalled", "accepted"].includes(loanApplication.state));
+                        .filter(loanApplication => loanApplication.state === "wait");
 
                     const newRows = loanApplications.map(loanApplication => {
 
@@ -58,7 +58,7 @@ class OverviewController {
             if (loanApplication.status === "approved") {
                 const btnOffers = createElement("button", {textContent: "View Offers"});
                 btnOffers.style.marginRight = "10px";
-                // btn.textContent = "View Offers";
+                
                 btnOffers.onclick = () => {
                     this.renderOffers(loanApplication.offers, loanApplication, trEl);
                 }
