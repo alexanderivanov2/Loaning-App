@@ -53,22 +53,42 @@ class OverviewController {
             trEl.append(createElement("td", {textContent: loanApplication.status}));
             
             const tdEl = createElement("td");
-            const btn = createElement("button", {textContent: "Cancel"});
-            tdEl.append(btn);
+            tdEl.style.width = "200px";
 
-            if (loanApplication.status === "pending") {
-                btn.onclick = () => {
-                    this.loanManager.removeLoanApplication(loanApplication.id);
-                    trEl.remove();
-                }
-            } else if (loanApplication.status === "approved") {
-                btn.textContent = "View Offers";
-                btn.onclick = () => {
+            if (loanApplication.status === "approved") {
+                const btnOffers = createElement("button", {textContent: "View Offers"});
+                btnOffers.style.marginRight = "10px";
+                // btn.textContent = "View Offers";
+                btnOffers.onclick = () => {
                     this.renderOffers(loanApplication.offers, loanApplication, trEl);
                 }
-            } else if (loanApplication.status === "rejected") {
-                tdEl.textContent = "No Action";
+
+                tdEl.append(btnOffers);
             }
+
+            const btn = createElement("button", {textContent: "Cancel"});
+
+            btn.onclick = () => {
+                this.loanManager.removeLoanApplication(loanApplication.id);
+                trEl.remove();
+            }
+
+            tdEl.append(btn);
+
+
+            // if (loanApplication.status === "pending") {
+            //     // btn.onclick = () => {
+            //     //     this.loanManager.removeLoanApplication(loanApplication.id);
+            //     //     trEl.remove();
+            //     // }
+            // } else if (loanApplication.status === "approved") {
+            //     btn.textContent = "View Offers";
+            //     btn.onclick = () => {
+            //         this.renderOffers(loanApplication.offers, loanApplication, trEl);
+            //     }
+            // } else if (loanApplication.status === "rejected") {
+            //     tdEl.textContent = "No Action";
+            // }
 
             trEl.append(tdEl);
 
