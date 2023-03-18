@@ -1,4 +1,3 @@
-// CALCULATIONS
 
 function generateRandomIncome() {
     const income = Math.ceil(Math.random() * 10000);
@@ -21,6 +20,8 @@ function saveInLocalStorage(data={}) {
         })
 }
 
+// UTILS CONVERT, TRANSFORM, SELECT
+ 
 function getUserType() {
     let isLoggedIn = getLocalStorageValue("logged");
 

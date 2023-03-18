@@ -24,7 +24,6 @@ class TimeSimulator {
             localStorageData.logged = this.userManager.setReferenceUser(this.userManager.logged);
         }
         
-        // console.log(localStorageData);
         saveInLocalStorage(localStorageData);
     }
 }

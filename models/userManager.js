@@ -91,7 +91,6 @@ class UserManager {
     }
 
     setMonthlyIncomeForUser(monthlyIncome) {
-        // console.log(this.logged);
         this.logged.monthlyIncome = monthlyIncome;
         saveInLocalStorage({
             "users": this.users,

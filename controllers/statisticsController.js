@@ -1,6 +1,7 @@
 class StatisticsController {
     constructor(loanManager) {
         this.loanManager = loanManager;
+        
         this.loanStatisticsTable = document.querySelector(".loan-statistics-table");
         this.loanStatisticsTableBody = this.loanStatisticsTable.querySelector("tbody");
         this.divStats = document.querySelector(".overall-stats");
@@ -45,9 +46,6 @@ class StatisticsController {
             textContent: `Eligible Loan Applications: ${statistics.eligibleLoanApplicatons}`});
         const rejectedLoanApplicatons = createElement("p", {
             textContent: `Rejected Loan Applications: ${statistics.rejectedLoanApplicatons}`});
-            //TODO AFTER CLEAR THIS POINT...
-            // const numberLoanAppLenders = createElement("p", {
-        //     textContent: `: ${statistics.numberLoanAppLenders}`});
         const totalLoanAmountRequested = createElement("p", {
             textContent: `Total Loan Amount Requested: ${statistics.totalLoanAmountRequested}`});
         const totalLoanAmountApproved = createElement("p", {
@@ -68,8 +66,6 @@ class StatisticsController {
         const rejectedLoanApplicatons = this.loanManager.loanApplications.filter(loanApp => {
             return loanApp.status === "rejected";
         }).length;
-        
-        const numberLoanAppLenders = {};
         
         const totalLoanAmountRequested = this.loanManager.loanApplications.reduce((acc, curr) => {
             return acc + curr.requestedAmount

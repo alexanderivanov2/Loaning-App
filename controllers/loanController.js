@@ -2,7 +2,9 @@ class LoanController {
     constructor(userManager, loanManager, overviewController) {
         this.userManager = userManager;
         this.loanManager = loanManager;
+
         this.overviewController = overviewController;
+        
         this.borrowForm = document.querySelector(".loan-form");
         this.formMsg = this.borrowForm.querySelector(".loan-form-message");
         this.borrowNameInput = this.borrowForm.querySelector("input[name='borrowerName']");

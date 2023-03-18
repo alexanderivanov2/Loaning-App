@@ -73,7 +73,7 @@ class LoanManager{
     removeLoanApplication(id) {
         const loanApplication= this.getLoanApplication(id);
 
-        loanApplication.state = "cancalled";
+        loanApplication.state = "cancelled";
         saveInLocalStorage({"loanApplications": this.loanApplications});
     }
 

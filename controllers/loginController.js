@@ -1,6 +1,7 @@
 class LoginController {
     constructor(userManager) {
         this.userManager = userManager;
+        
         this.loginPage = document.querySelector(".login");
         this.loginForm = this.loginPage.querySelector(".login-form");
         this.loginMsg = this.loginForm.querySelector(".login-message");

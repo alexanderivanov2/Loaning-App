@@ -1,6 +1,7 @@
 class RegisterController {
     constructor(userManager) {
         this.userManager = userManager;
+        
         this.registerPage = document.querySelector(".register");
         this.registerForm = this.registerPage.querySelector(".register-form");
         this.registerMsg = this.registerForm.querySelector(".register-message");
