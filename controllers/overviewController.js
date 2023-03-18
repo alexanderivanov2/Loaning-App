@@ -56,7 +56,7 @@ class OverviewController {
             const btn = createElement("button", {textContent: "Cancel"});
             tdEl.append(btn);
 
-            if (loanApplication.status !== "approved") {
+            if (loanApplication.status === "pending") {
                 btn.onclick = () => {
                     this.loanManager.removeLoanApplication(loanApplication.id);
                     trEl.remove();
@@ -66,6 +66,8 @@ class OverviewController {
                 btn.onclick = () => {
                     this.renderOffers(loanApplication.offers, loanApplication, trEl);
                 }
+            } else if (loanApplication.status === "rejected") {
+                tdEl.textContent = "No Action";
             }
 
             trEl.append(tdEl);
