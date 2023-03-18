@@ -1,5 +1,4 @@
 @import url("./overview.css");
-@import url("./login.css");
 
 .content-page {
     width: calc(100vw - 100px);
