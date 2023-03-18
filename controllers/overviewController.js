@@ -8,30 +8,44 @@ class OverviewController {
         this.loanTable = document.querySelector(".loan-table");
         this.loanTableBody = this.loanTable.querySelector("tbody");
         this.offersDiv = document.querySelector(".offers-wrapper");
-        
-        this.intervalID = null;
-        
     }
 
     setUpOverviewPage() {
-        // clearInterval(this.intervalID);
-        // TODO CORRECT TO 60000
-        // this.intervalID = setInterval(() => {
-        //     this.renderTableLoanRequestBody()
-        // }, 10000)
-
         this.offersDiv.replaceChildren();
-        this.renderTableLoanRequestBody();
+
+        this.renderTableLoanApplicationsBody();
         this.renderTableLoans();
     }
 
-    renderTableLoanRequestBody() {
-        const loanApplications = this.loanManager
+    renderTableLoanApplicationsBody() {
+        this.LoanApplicationstableBody.replaceChildren(this.createTableLoader(5));
+        this.loanManager
                 .getLoanApplications(this.userManager.logged.loanIDs)
-                .filter(loanApplication => !["cancalled", "accepted"].includes(loanApplication.status));
-        const newRows = loanApplications.map(loanApplication => {
+                .then(resData => {
+                    const loanApplications = resData
+                        .filter(loanApplication => !["cancalled", "accepted"].includes(loanApplication.state));
 
-            const trEl = createElement("tr", {className: "request-loan-row"});
+                    const newRows = loanApplications.map(loanApplication => {
+
+                        const trEl = this.createTableLoanApplicationsRow(loanApplication);
+            
+                        return trEl;
+                    });
+                    
+                    if (newRows.length) {
+                        this.LoanApplicationstableBody.replaceChildren(...newRows);
+                    } else {
+                        const trEl = createElement("tr", {className: "request-loan-row"});
+                        const tdEl = createElement("td", {textContent: "You don't have any applications"})
+                        tdEl.setAttribute("colspan", 5);
+                        trEl.append(tdEl)
+                        this.LoanApplicationstableBody.replaceChildren(trEl);
+                    }
+                });
+    }
+
+    createTableLoanApplicationsRow(loanApplication) {
+        const trEl = createElement("tr", {className: `request-loan-row application-${loanApplication.id}`});
 
             trEl.append(createElement("td", {textContent: loanApplication.id}));
             trEl.append(createElement("td", {textContent: loanApplication.requestedAmount}));
@@ -43,92 +57,90 @@ class OverviewController {
             tdEl.append(btn);
 
             if (loanApplication.status !== "approved") {
-                btn.onclick = (e) => {
-                    console.log("click");
+                btn.onclick = () => {
                     this.loanManager.removeLoanApplication(loanApplication.id);
-                    console.log(e.currentTarget.parentElement.parentElement)
-                    // e.currentTarget.parentElement.parentElement.remove();
                     trEl.remove();
-                };
+                }
             } else if (loanApplication.status === "approved") {
                 btn.textContent = "View Offers";
                 btn.onclick = () => {
                     this.renderOffers(loanApplication.offers, loanApplication, trEl);
                 }
-            } else if (loanApplication.status === "rejected") {
-                tdEl.replaceChildren("No");
             }
 
             trEl.append(tdEl);
 
-
             return trEl;
-        });
+    }
+
+    updateApplicationStatus(id) {
+        const className = `application-${id}`;
+        const application = this.loanManager.getLoanApplication(id);
+
+        const trEl = this.LoanApplicationstableBody.querySelector(`.${className}`);
+        const newTrEl = this.createTableLoanApplicationsRow(application);
         
-        if (newRows.length) {
-            this.LoanApplicationstableBody.replaceChildren(...newRows);
-        } else {
-            
-            const trEl = createElement("tr", {className: "request-loan-row"});
-            const tdEl = createElement("td", {textContent: "You don't have any applications"})
-            tdEl.setAttribute("colspan", 5);
-            trEl.append(tdEl)
-            this.LoanApplicationstableBody.replaceChildren(trEl);
+        if (trEl) {
+            this.LoanApplicationstableBody.replaceChild(newTrEl, trEl);
         }
     }
 
     renderTableLoans() {
-        const loans = this.loanManager.getLoans();
+        this.loanTableBody.replaceChildren(this.createTableLoader(6));
 
-        const loanRows = loans.map(loan => {
-            const trEl = createElement("tr", {className: "request-loan-row"});
-
-            trEl.append(createElement("td", {textContent: loan.id}));
-            trEl.append(createElement("td", {textContent: loan.requestedAmount}));
-            trEl.append(createElement("td", {textContent: loan.requestedTerm}));
-            trEl.append(createElement("td", {textContent: loan.status}));
-            
+        this.loanManager.getLoans()
+            .then(resData => {
+                const loanRows = resData.map(loan => this.createTableLoanRow(loan));
         
-            const tdEl = createElement("td");
-            
-            if (loan.status === "progress") {
-                const btn = createElement("button", {textContent: "Repay In Full"});
-    
-                btn.onclick = () => {
-                    const response = this.loanManager.repaidLoan(loan.id);
-    
-                    if (response.isRepaid) {
-                        this.renderTableLoans();
-                    } else {
-                        alert(response.alert);
-                    }
+                if (loanRows.length) {
+                    this.loanTableBody.replaceChildren(...loanRows);
+                } else {
+                    const trEl = createElement("tr", {className: "request-loan-row no-loans"});
+                    const tdEl = createElement("td", {textContent: "You don't have any Loans"})
+                    tdEl.setAttribute("colspan", 6);
+                    trEl.append(tdEl);
+        
+                    this.loanTableBody.replaceChildren(trEl);
                 }
-                tdEl.append(btn);
-            } else {
-                tdEl.textContent = "No Action";
-            }
-            trEl.append(tdEl);
+            })
+    }
+
+    createTableLoanRow(loan) {
+        const trEl = createElement("tr", {className: `request-loan-row loan-row-${loan.id}`});
+        
+        trEl.append(createElement("td", {textContent: loan.id}));
+        trEl.append(createElement("td", {textContent: loan.requestedAmount}));
+        trEl.append(createElement("td", {textContent: loan.requestedTerm}));
+        trEl.append(createElement("td", {textContent: loan.status}));
+                    
+                
+        const tdEl = createElement("td");
+                    
+        if (loan.status === "progress") {
+            const btn = createElement("button", {textContent: "Repay In Full"});
             
-            trEl.append(createElement("td", {textContent: loan.totalOwnedAmount}));
-
-            return trEl;
-        });
-
-        if (loanRows.length) {
-            this.loanTableBody.replaceChildren(...loanRows);
+            btn.onclick = () => {
+                const response = this.loanManager.repaidLoan(loan.id);
+            
+                if (response.isRepaid) {
+                    this.loanTableBody.replaceChild(this.createTableLoanRow(loan), trEl);
+                } else {
+                    alert(response.alert);
+                }
+            }
+            tdEl.append(btn);
         } else {
-            const trEl = createElement("tr", {className: "request-loan-row"});
-            const tdEl = createElement("td", {textContent: "You don't have any applications"})
-            tdEl.setAttribute("colspan", 6);
-            trEl.append(tdEl);
-
-            this.loanTableBody.replaceChildren(trEl);
+            tdEl.textContent = "No Action";
         }
+
+        trEl.append(tdEl);
+                    
+        trEl.append(createElement("td", {textContent: loan.totalOwnedAmount}));
+        
+        return trEl;
     }
 
     renderOffers(offers, loanApplication, trEl) {
-        console.log(offers);
-
         const offerCards = offers.map(offer => {
             const divEl = createElement("div", {className: "offer-card"});
 
@@ -144,10 +156,14 @@ class OverviewController {
             const buttton = createElement("button", {textContent: "Accept Offer"});
         
             buttton.onclick = () => {
-                this.loanManager.acceptOffer(loanApplication, offer)
+                const loan = this.loanManager.acceptOffer(loanApplication, offer)
                 trEl.remove();
                 this.offersDiv.replaceChildren();
-                this.renderTableLoans();
+
+                if (this.loanTableBody.querySelector(".no-loans")) {
+                    this.loanTableBody.replaceChildren();
+                }
+                this.loanTableBody.append(this.createTableLoanRow(loan));
             }; 
             divEl.append(buttton);
 
@@ -155,5 +171,22 @@ class OverviewController {
         });
 
         this.offersDiv.replaceChildren(...offerCards);
+    }
+
+    createTableLoader(colspan) {
+        const trLoader = createElement("tr");
+        trLoader.style.height = 200;
+        
+        const tdLoader = createElement("td",);
+        tdLoader.setAttribute("colspan", colspan);
+        
+        const pLoader = createElement("p", {className: "loader"});
+        pLoader.style.margin = "auto";
+        tdLoader.append(pLoader);
+        
+
+        trLoader.append(tdLoader);
+
+        return trLoader
     }
 }

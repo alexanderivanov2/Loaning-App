@@ -6,7 +6,6 @@ function generateRandomIncome() {
     return income;
 }
 
-
 // LOCAL STORAGE
 
 function getLocalStorageValue(key) {

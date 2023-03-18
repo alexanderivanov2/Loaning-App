@@ -10,6 +10,8 @@ class RegisterController {
 
     setUpRegister = () => {
         this.registerForm.reset();
+
+        this.registerMsg.textContent = "";
         this.submitBtn.disabled = true;
 
         this.registerForm.oninput = this.handleRegisterFormInput;

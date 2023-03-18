@@ -7,10 +7,10 @@ class LoanManager{
         this.lenders = lenders;
     }
 
-    handleLoanRequest ({borrowerIncome, requestedAmount, requestedTerm}) {
+    handleLoanApplication ({borrowerIncome, requestedAmount, requestedTerm}) {
         this.userManager.setMonthlyIncomeForUser(borrowerIncome);
 
-        const requesterStats = this.getApplicationStats(borrowerIncome, requestedAmount, requestedTerm)
+        const applicatorStats = this.getApplicationStats(borrowerIncome, requestedAmount, requestedTerm)
         const id = this.idGenerator.getId();
 
         const monthlyPayment = requestedAmount / requestedTerm;
@@ -18,45 +18,42 @@ class LoanManager{
         const loanApplication = new LoanApplication(id, requestedAmount, requestedTerm, monthlyPayment);
         this.loanApplications.push(loanApplication);
         
+        this.userManager.setLoanId(id);
         saveInLocalStorage({"loanApplications": this.loanApplications});
         
-        this.userManager.setLoanId(id);
-
-        //  CAN BE SEPERATED TO RETURN IN LOAN CONTROLLER AND CONNECT WITH OVERVIEW CONTROLLER
         const pendingLoan = new Promise((resolve, reject) => {
-            if (requesterStats.isEligibilit) {
-                setTimeout(() => resolve([requesterStats, loanApplication]), 10000);
-            } else {
-                setTimeout(() => reject(id), 10000);
-            }
+
+            setTimeout(() => {
+                const status = applicatorStats.isEligibilit ? "approved" : "rejected"
+                
+                if (status === "approved") {
+                    this.approveLoanApplication(applicatorStats, id);
+                } else {
+                    this.rejectedLoanApplication(id);
+                }
+
+                resolve(id);
+            }, 10000);
         });
 
         return pendingLoan      
-        .then(([requesterStats, requestLoan]) => {
-            this.approveLoanApplication(requesterStats, requestLoan.id);
-            return true;
-        })
-        .catch(err => {
-            this.rejectedLoanApplication(err);
-            return false;
-        });
     }
 
-    approveLoanApplication(requesterStats, id) {
-        const loan = this.getLoanApplication(id);
+    approveLoanApplication(applicatorStats, id) {
+        const loanApp = this.getLoanApplication(id);
 
-        if (loan) {
-            loan.status = "approved";
-            loan.offers = this.getOffers(requesterStats.interestRate, loan.requestedAmount, loan.requestedTerm, loan.monthlyPayment);
+        if (loanApp) {
+            loanApp.status = "approved";
+            loanApp.offers = this.getOffers(applicatorStats.interestRate, loanApp.requestedAmount, loanApp.requestedTerm);
             saveInLocalStorage({"loanApplications": this.loanApplications});
         }
     }
 
     rejectedLoanApplication(id) {
-        const loan = this.getLoanApplication(id);
+        const loanApp = this.getLoanApplication(id);
 
-        if (loan) {
-            loan.status = "rejected";
+        if (loanApp) {
+            loanApp.status = "rejected";
             saveInLocalStorage({"loanApplications": this.loanApplications});
         }
     }
@@ -66,13 +63,17 @@ class LoanManager{
     }
     
     getLoanApplications(ids=this.userManager.logged.loanIDs) {
-        return this.loanApplications.filter(loan => ids.includes(loan.id));
+        const result = this.loanApplications.filter(loan => ids.includes(loan.id));
+
+        return new Promise((res, rej) => {
+            setTimeout(() => res(result), 1000);
+        }) 
     }
 
     removeLoanApplication(id) {
         const loanApplication= this.getLoanApplication(id);
 
-        loanApplication.status = "cancalled";
+        loanApplication.state = "cancalled";
         saveInLocalStorage({"loanApplications": this.loanApplications});
     }
 
@@ -81,15 +82,18 @@ class LoanManager{
     }
 
     getLoans(ids=this.userManager.logged.loanIDs) {
-        console.log(ids);
-        return this.loans.filter(loan => ids.includes(loan.id));
+        const result = this.loans.filter(loan => ids.includes(loan.id));
+        return new Promise((res, rej) => {
+            setTimeout(() => res(result), 1000);
+        })
     }
 
     acceptOffer(loanApplication, offer) {
-        loanApplication.status = "accepted";
         const {id, requestedAmount, requestedTerm, monthlyPayment} = loanApplication;
         const {interestRate, lenderName, loanAmount} = offer;
-        // MAKE RIGHT CALCULATIONS for totalOwned Money
+
+        loanApplication.state = "accepted";
+
         const totalOwnedAmount =  loanAmount + (loanAmount * (interestRate/100));
         
         const loan = new Loan(id, requestedAmount, loanAmount, requestedTerm, monthlyPayment, totalOwnedAmount, interestRate, lenderName);
@@ -98,8 +102,9 @@ class LoanManager{
         saveInLocalStorage({
             "loans": this.loans,
             "loanApplications": this.loanApplications,
-        })
-        // save in local storage
+        });
+
+        return loan;
     }
 
     repaidLoan(id) {
@@ -134,17 +139,17 @@ class LoanManager{
         return response;
     }
 
-    getOffers(interestRate, requestedAmount, requestedTerm, monthlyPayment) {
+    getOffers(interestRate, requestedAmount, requestedTerm) {
         const offers = [];
     
         this.lenders.forEach(lender => {
             let isOffer = interestRate <= lender.maxInterestRate;
-            // TODO NUMBER OF APPLICATIONS CREATE
             if (isOffer) {
                 const loanAmount = requestedAmount > lender.maxLoanAmount ? lender.maxLoanAmount : requestedAmount;
-                console.log(loanAmount, monthlyPayment, requestedTerm);
+      
+                const monthlyPayment = loanAmount / requestedTerm;
+
                 const offer = new Offer(interestRate, requestedAmount, loanAmount, monthlyPayment, requestedTerm, lender.name);
-                console.log(offer)
                 offers.push(offer);
             }
         })

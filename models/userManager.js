@@ -7,7 +7,7 @@ class UserManager {
 
     handleLogin(formData) {
         const loginPromise = new Promise((res, rej) => {
-            setTimeout(() => res(this.login(formData)), 3000);
+            setTimeout(() => res(this.login(formData)), 1500);
         });
 
         return loginPromise
@@ -15,7 +15,7 @@ class UserManager {
     
     handleRegister(formData) {
         const registerPromise = new Promise((res, rej) => {
-            setTimeout(() => res(this.register(formData)), 3000);
+            setTimeout(() => res(this.register(formData)), 1500);
         });
 
         return registerPromise

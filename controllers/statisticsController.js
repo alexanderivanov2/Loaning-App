@@ -7,7 +7,6 @@ class StatisticsController {
     }
 
     setUpStatisticsPage() {
-        this.loanManager.loans.forEach(loan => console.log(loan));
         this.renderLoanStatisticsTable();
         this.renderOverallTable();
     }
@@ -31,7 +30,7 @@ class StatisticsController {
             this.loanStatisticsTableBody.replaceChildren(...loanRows);
         } else {
             const trEl = createElement("tr", {className: "request-loan-row"});
-            const tdEl = createElement("td", {textContent: "You don't have any applications"})
+            const tdEl = createElement("td", {textContent: "No Loans in System"})
             tdEl.setAttribute("colspan", 5);
             trEl.append(tdEl);
             
@@ -41,7 +40,6 @@ class StatisticsController {
 
     renderOverallTable() {
         const statistics = this.getOverallStatistics();
-        console.log(statistics);
 
         const eligibleLoanApps = createElement("p", {
             textContent: `Eligible Loan Applications: ${statistics.eligibleLoanApplicatons}`});
@@ -55,7 +53,7 @@ class StatisticsController {
         const totalLoanAmountApproved = createElement("p", {
             textContent: `Total Loan Amount Approved: ${statistics.totalLoanAmountApproved}`});
         const totalMonthlyPaymentForAllLoans = createElement("p", {
-            textContent: `Total Monthly Payment For All Loans: ${statistics.totalMonthlyPaymentForAllLoans}`});
+            textContent: `Total Monthly Payment For All Loans: ${statistics.totalMonthlyPaymentForAllLoans.toFixed(2)}`});
         const totalNumberLoanApplications = createElement("p", {
             textContent: `Total Number Of Loan Applications: ${statistics.totalNumberLoanApplications}`});
     
@@ -64,10 +62,12 @@ class StatisticsController {
 
     getOverallStatistics() {
         const eligibleLoanApplicatons = this.loanManager.loanApplications.filter(loanApp => {
-            return loanApp.status !== "rejected";
+            return loanApp.status === "approved";
         }).length;
         
-        const rejectedLoanApplicatons = this.loanManager.loanApplications.length - eligibleLoanApplicatons;
+        const rejectedLoanApplicatons = this.loanManager.loanApplications.filter(loanApp => {
+            return loanApp.status === "rejected";
+        }).length;
         
         const numberLoanAppLenders = {};
         
