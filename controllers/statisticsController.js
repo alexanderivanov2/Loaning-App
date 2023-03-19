@@ -84,7 +84,6 @@ class StatisticsController {
         const data = {
             eligibleLoanApplicatons,
             rejectedLoanApplicatons,
-            numberLoanAppLenders,
             totalLoanAmountRequested,
             totalLoanAmountApproved,
             totalMonthlyPaymentForAllLoans,
