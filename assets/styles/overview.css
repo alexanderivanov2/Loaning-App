@@ -21,6 +21,37 @@ tbody td {
     cursor: pointer;
 }
 
+.td-p-status {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+}
+
+.td-p-status span.dot-color-yellow {
+    animation: blink infinite alternate ease-in-out 1.25s;
+}
+
+@keyframes blink{
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.75;
+    }
+    50% {
+        opacity: 0.50;
+    }
+    75% {
+        opacity: 0.25;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 .offers-wrapper {
     margin: 50px 0px;
     display: flex;
@@ -65,4 +96,24 @@ tbody td {
     display:  flex;
     flex-direction: column;
     align-items: center;
+}
+
+.dot-status {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: black;
+}
+
+.dot-color-orangered {
+    background-color: orangered;
+}
+
+.dot-color-green {
+    background-color: greenyellow;
+}
+
+.dot-color-yellow {
+    background-color: orange;
 }

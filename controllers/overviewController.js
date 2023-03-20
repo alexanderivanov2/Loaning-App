@@ -50,7 +50,23 @@ class OverviewController {
             trEl.append(createElement("td", {textContent: loanApplication.id}));
             trEl.append(createElement("td", {textContent: loanApplication.requestedAmount}));
             trEl.append(createElement("td", {textContent: loanApplication.requestedTerm}));
-            trEl.append(createElement("td", {textContent: loanApplication.status}));
+            // trEl.append(createElement("td", {textContent: loanApplication.status}));
+            
+            const tdStatus = createElement("td");
+            const pStatus = createElement("p", {textContent: loanApplication.status, className: "td-p-status"});
+            const spanDotStatus = createElement("span");
+            let color = "yellow";
+
+            if (loanApplication.status === "rejected") {
+                color = "orangered";
+            } else if (loanApplication.status === "approved") {
+                color = "green";
+            }
+
+            spanDotStatus.className = `dot-status dot-color-${color}`;
+            pStatus.prepend(spanDotStatus);
+            tdStatus.append(pStatus)
+            trEl.append(tdStatus);
             
             const tdEl = createElement("td");
             tdEl.style.width = "200px";
