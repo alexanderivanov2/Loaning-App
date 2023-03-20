@@ -50,7 +50,6 @@ class OverviewController {
             trEl.append(createElement("td", {textContent: loanApplication.id}));
             trEl.append(createElement("td", {textContent: loanApplication.requestedAmount}));
             trEl.append(createElement("td", {textContent: loanApplication.requestedTerm}));
-            // trEl.append(createElement("td", {textContent: loanApplication.status}));
             
             const tdStatus = createElement("td");
             const pStatus = createElement("p", {textContent: loanApplication.status, className: "td-p-status"});
