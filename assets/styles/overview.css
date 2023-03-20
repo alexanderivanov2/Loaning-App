@@ -2,6 +2,7 @@ h2 {
     text-align: center;
     margin: 10px;
 }
+
 table.loan-requests, table.loan-table, table.loan-statistics-table, table .table {
     width: 80%;
     margin: 25px auto;

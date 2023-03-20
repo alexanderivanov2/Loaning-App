@@ -18,7 +18,7 @@ function validateSubmitLoanForm(formData) {
         validateErrors.push("Invalid username");
     }
 
-    if (!numberValidation(borrowerIncome) || borrowerIncome < 0 ) {
+    if (!numberValidation(borrowerIncome) || borrowerIncome <= 0 ) {
         validateErrors.push("Invalid income");
     } 
 

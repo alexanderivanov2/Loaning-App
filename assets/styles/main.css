@@ -1,22 +1,8 @@
 @import url("./overview.css");
-
+@import url("./form.css");
 .content-page {
     width: calc(100vw - 100px);
     margin: 50px auto;
-}
-
-form {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 25px auto;
-}
-
-form label, label.input-group-text {
-    display: inline-block;
-    width: 175px;
-    text-align: left;
 }
 
 .login,
@@ -45,6 +31,10 @@ form label, label.input-group-text {
     100% {
         transform: rotate(360deg);
     }
+}
+
+div.register-load, div.login-load {
+    margin-top: 50px;
 }
 
 .hide {

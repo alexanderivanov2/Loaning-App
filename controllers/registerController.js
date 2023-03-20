@@ -13,6 +13,7 @@ class RegisterController {
         this.registerForm.reset();
 
         this.registerMsg.textContent = "";
+        // this.registerMsg.className = "register-message";
         this.submitBtn.disabled = true;
 
         this.registerForm.oninput = this.handleRegisterFormInput;
