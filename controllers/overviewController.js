@@ -85,6 +85,7 @@ class OverviewController {
 
             btn.onclick = () => {
                 this.loanManager.removeLoanApplication(loanApplication.id);
+                this.offersDiv.replaceChildren();
                 trEl.remove();
             }
 
