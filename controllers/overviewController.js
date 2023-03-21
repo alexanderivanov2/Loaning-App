@@ -134,8 +134,7 @@ class OverviewController {
         trEl.append(createElement("td", {textContent: loan.requestedAmount}));
         trEl.append(createElement("td", {textContent: loan.requestedTerm}));
         trEl.append(createElement("td", {textContent: loan.status}));
-                    
-                
+                           
         const tdEl = createElement("td");
                     
         if (loan.status === "progress") {

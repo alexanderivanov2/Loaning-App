@@ -60,7 +60,6 @@ class LoanController {
 
             this.loanManager.handleLoanApplication(formData)
                 .then(res => {
-                    // console.log(res);
                     this.overviewController.updateApplicationStatus(res);
                 })
 

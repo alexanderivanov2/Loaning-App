@@ -33,7 +33,7 @@ class LoanManager{
                 }
 
                 resolve(id);
-            }, 10000);
+            }, 10000 * 6);
         });
 
         return pendingLoan      
